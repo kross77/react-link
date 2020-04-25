@@ -12,7 +12,6 @@ export const updateObject = <T extends any>([value, setValue]: Link<
     inputCb: (key: string) => (e: any) => setValue({ ...value, [key]: e.target.value }),
 });
 
-
 export const createArrayLinkInterface = <T extends any>([value, setValue]: Link<
     T[]
     >): ArrayLink<T> => {

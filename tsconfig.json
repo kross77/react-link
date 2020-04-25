@@ -16,13 +16,14 @@
     "outDir": "./dist",
     "allowSyntheticDefaultImports": true,
     "jsx": "react",
-    "target": "ES6",
+    "target": "ESNext",
     "moduleResolution": "node",
-    "module": "commonjs",
+    "module": "ESNext",
     "lib": ["dom", "esnext"],
     "skipLibCheck": true,
     "allowJs": true,
-    "strict": true
+    "strict": true,
+    "types": ["react"]
   },
   "exclude": [
     "node_modules",

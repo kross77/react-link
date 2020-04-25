@@ -1,68 +1,57 @@
-## React and React Native npm package boilerplate with Typescript support
+## React link
 ----
 
 ### About
-This boilerplate make it easier to create npm package from Typescript projects.
+Link is simple but very powerful pattern for react hook development.
+The idea is put the update function and value into one object.
 
-The project is intended to be used with the latest Active LTS release of [Node.js][nodejs]. 
+The simple example is stupid, but you could see how the general idea works
 
+```tsx
+import {useSingleLink} from '@kross77/react-links'
 
-### Getting Started
-
-To start, just clone the repository with following commands:
-
-```sh
-git clone https://github.com/pankod/react-typescript-npm-package-boilerplate
-
-cd react-typescript-npm-package-boilerplate
-
-npm install
-```
-
- **Then run the following commands for:**
-
- **Babel build** : 
-```sh 
-$ npm run babel-build
-```
-
- **Typescript build** : 
-```sh 
-$ npm run ts-build
-```
-
-#### This boilerplate includes:
-
-- Typescript 3
-- TSLint with Microsoft rules
-- Jest and Enzyme support,
-- Simple example of TypeScript code
-- .editorconfig for consistent file format
-
-**You should change the lines on package.json:**
-
-If you develop React for web:
-
-```json
-"devDependencies:{
-  "@types/react": "^16.8.5", // or @latest
-  "@types/react-dom": "^16.8.2", // or @latest
-},
-
-"peerDependencies": {
-    "react": "*",
-    "react-dom": "*",
+const User = () => {
+ const nameLink = useSingleLink('');
+ return <div>
+    <h2>User name: ${nameLink.value}</h2>
+    <input onChange={e => nameLink.set(e.target.value)}/>
+</div>
 }
 ```
-or React-Native development environment 
-```json
-"devDependencies:{
-  "@types/react": "^16.8.5", // or @latest
-  "@types/react-native": "^16.8.2", // or @latest
-},
 
-"peerDependencies": {
-    "react": "*",
-    "react-native": "*",
+The awesome part starting when you know what object type do you have, 
+and put routine operation to the link for example 
+
+```tsx
+import {useObjectLink} from '@kross77/react-link'
+
+const User = () => {
+ const formLink = useObjectLink({first: "", last: ""});
+ return <div>
+    <h2>User name: ${formLink.value.first}  ${formLink.value.last}</h2>
+    <input onChange={e => formLink.update({first: e.target.value})}/>
+    <input onChange={e => formLink.update({last: e.target.value})}/>
+</div>
 }
 ```
+or 
+
+```tsx
+import {useObjectLink} from '@kross77/react-link'
+
+const User = () => {
+ const formLink = useObjectLink({first: "", last: ""});
+ return <div>
+    <h2>User name: ${formLink.value.first}  ${formLink.value.last}</h2>
+    <input onChange={formLink.inputCb('first')}/>
+    <input onChange={formLink.inputCb('last')}/>
+</div>
+}
+```
+
+
+### Documentation
+Now the source code not more than 100 lines and everything into one file, so you
+could overview ``src/index.ts``
+
+Work in progress...

@@ -1,10 +1,11 @@
 {
-  "name": "@kross77/react-native-layout",
-  "version": "1.0.2",
-  "description": "react,react native and jsx npm package generator with typescript",
+  "name": "@kross77/react-link",
+  "version": "1.0.1",
+  "description": "react hooks link pattern",
   "scripts": {
     "build": "rm -rf ./dist/** && tsc -b",
     "b": "yarn build",
+    "b2": "npx tsdx build",
     "travis-deploy-once": "travis-deploy-once",
     "semantic-release": "semantic-release",
     "watch": "tsc -b --watch",
@@ -12,27 +13,28 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kross77/react-native-layout"
+    "url": "https://github.com/kross77/react-link"
   },
   "bugs": {
-    "url": "https://github.com/kross77/react-native-layout/issues"
+    "url": "https://github.com/kross77/react-link/issues"
   },
-  "homepage": "https://github.com/kross77/react-native-layout",
+  "homepage": "https://github.com/kross77/react-link",
   "files": [
     "dist"
   ],
-  "types": "dist/src/index.d.ts",
-  "main": "dist/src/index.js",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
   "keywords": [
     "react",
     "react-native",
-    "layout",
+    "patterns",
+    "link",
+    "library",
     "npm",
     "typescript",
     "npm package",
     "generator",
-    "babel",
-    "react-dom"
+    "babel"
   ],
   "author": "Ales Krasouski",
   "contributors": [
@@ -43,20 +45,18 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@kross77/react-native-layout": "^1.0.1",
     "babel-preset-react-native": "1.9.0",
-    "react": "16.9.0",
-    "react-native": "0.62.1",
-    "styled-components": "3.2.3"
+    "react": "16.9.0"
   },
   "devDependencies": {
     "@babel/cli": "7.2.3",
-    "@babel/core": "7.3.4",
-    "@babel/plugin-proposal-class-properties": "7.3.4",
-    "@babel/plugin-proposal-object-rest-spread": "7.3.4",
+    "react-dom": "16.9.0",
+    "@babel/core": "7.8.4",
+    "@babel/plugin-syntax-dynamic-import": "7.8.3",
+    "@babel/preset-env": "7.8.4",
+    "@babel/preset-react": "7.8.3",
+    "@babel/preset-typescript": "7.8.3",
     "@babel/plugin-transform-typescript": "7.3.2",
-    "@babel/preset-env": "7.3.4",
-    "@babel/preset-typescript": "7.3.3",
     "@types/jest": "24.0.9",
     "@types/react": "16.8.5",
     "enzyme": "3.9.0",
@@ -72,6 +72,11 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-dom": "*"
+  },
+  "workspaces": {
+    "nohoist": [
+      "react", "react-dom"
+    ]
   }
 }

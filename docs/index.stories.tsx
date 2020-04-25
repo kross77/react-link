@@ -1,109 +1,65 @@
 import React, {useState} from 'react';
-import { storiesOf } from '@storybook/react-native';
-import { Text } from 'react-native';
-import Layout from "@kross77/layout";
+import {storiesOf} from '@storybook/react-native';
+import {Button, TextInput, Title, Surface} from 'react-native-paper';
+import Layout from "@kross77/react-native-layout";
+import {useObjectLink, useSingleLink} from "@kross77/react-link";
 
-const getRandomColor = (p = 'FFFFFF', min = "000000") => {
-    const letters = '0123456789ABCDEF';
-    const color = '#';
-    const minPattern = min.split('')
-    let finalColor = p.split("").reduce((c, letter, i) => {
-        const maxIndex = letters.search(letter);
-        const minIndex = letters.search(minPattern[i]);
-        console.log({maxIndex, minIndex})
-        const randomLetter = letters[Math.floor(Math.random() * (maxIndex-minIndex))+minIndex]
-        return c + randomLetter;
-    }, color);
-    console.log({finalColor})
-    return finalColor;
+interface LoginFormData {
+    email: string
+    password: string
 }
 
-const Row = ({children, ...props}) => {
-    const [color] = useState(getRandomColor('EEEEEE', 'BBBBBB'))
-    return (
-        <Layout center w h={50} color={color} {...props}>
-            <Text>{children}</Text>
-        </Layout>
-    )
+const isValid = (form: LoginFormData) => {
+    console.log('isValid', {e: form.email.length, p: form.password.length})
+    return form.email.length > 3 && form.password.length > 5
 }
-const FixedRow = ({children, ...props}) => {
-    const [color] = useState(getRandomColor('EEEEEE', 'BBBBBB'))
+
+const HookTest = () => {
+    const [state, setState] = useState('test');
     return (
-        <Layout center w={200} h={50} color={color} {...props}>
-            <Text>{children}</Text>
+        <Layout yellow w h center>
+            <Layout pv={20} ph={40}>
+                <h1>{state}</h1>
+                <TextInput value={state} onChangeText={setState} label={'Email'}/>
+
+            </Layout>
         </Layout>
     )
 }
 
-storiesOf('Block', module)
-    .add('w=100 h center', () => (
-        <Layout yellow w={100} h center>
-            <Text>Hello World</Text>
+const LoginForm = ({onSave}) => {
+    const inputLink = useObjectLink<LoginFormData>({
+        email: "", password: ""
+    });
+
+    return (
+        <Layout color={'grey'} w h center>
+            <Surface>
+                <Layout pv={20} ph={40} color={'white'}>
+                    <Layout pv={10} center>
+                        <Title>Sign in: </Title>
+                    </Layout>
+                    <Layout gap={10}>
+                        <TextInput onChangeText={inputLink.cb('email')} label={'Email'}/>
+                        <TextInput onChangeText={inputLink.cb('password')} type={'password'} label={'Password'}/>
+                    </Layout>
+                    <Layout pv={20}>
+                        <Button mode="contained"  disabled={!isValid(inputLink.value)} onPress={() => onSave(inputLink.value)}>Submit</Button>
+                    </Layout>
+                </Layout>
+            </Surface>
+        </Layout>
+    )
+}
+
+storiesOf('Links', module)
+    .add('test', () => (
+        <Layout yellow w h center>
+            <HookTest/>
         </Layout>
     ))
-    .add('wh', () => (
-        <Layout red wh>
-            <Text>Hello Button</Text>
-        </Layout>
-    ))
-    .add('wh ae je', () => (
-        <Layout red wh ae je>
-            <Text>Hello Button</Text>
-        </Layout>
-    ))
-    .add('f1 jc as', () => (
-        <Layout blue f1 jc as>
-            <Text>Hello Button</Text>
-        </Layout>
-    ))
-storiesOf('Layout', module)
-    .add('w=300', () => (
-        <Layout wh center>
-            <Layout w={300} color={'yellow'}>
-                <Row>Row 1</Row>
-                <Row>Row 2</Row>
-                <Row>Row 3</Row>
-                <Row>Row 4</Row>
-            </Layout>
-        </Layout>
-    ))
-    .add('w=300 gap=20', () => (
-        <Layout wh center>
-            <Layout w={300} gap={20} color={'yellow'}>
-                <Row>Row 1</Row>
-                <Row>Row 2</Row>
-                <Row>Row 3</Row>
-                <Row>Row 4</Row>
-            </Layout>
-        </Layout>
-    ))
-    .add('w=300 gap=20 ph=20', () => (
-        <Layout wh center>
-            <Layout ph={20} w={300} gap={20} color={'yellow'}>
-                <Row>Row 1</Row>
-                <Row>Row 2</Row>
-                <Row>Row 3</Row>
-                <Row>Row 4</Row>
-            </Layout>
-        </Layout>
-    ))
-    .add('fixed row gap=20', () => (
-        <Layout wh center>
-            <Layout  gap={20} color={'yellow'}>
-                <FixedRow>Row 1</FixedRow>
-                <FixedRow>Row 2</FixedRow>
-                <FixedRow>Row 3</FixedRow>
-                <FixedRow>Row 4</FixedRow>
-            </Layout>
-        </Layout>
-    ))
-    .add('fixed row gap=20 ph=20 pv=20', () => (
-        <Layout wh center>
-            <Layout ph={20} pv={20} gap={20} color={'yellow'}>
-                <FixedRow>Row 1</FixedRow>
-                <FixedRow>Row 2</FixedRow>
-                <FixedRow>Row 3</FixedRow>
-                <FixedRow>Row 4</FixedRow>
-            </Layout>
+    .add('login form', () => (
+        <Layout yellow w h center>
+            <LoginForm onSave={console.log}/>
         </Layout>
     ))
